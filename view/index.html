@@ -9,19 +9,25 @@
   <body style="margin: 0">
     <form onsubmit="handleFormSubmit(event)">
       <label for="expenseAmount">Expense Amount:</label>
+      <br>
       <input type="number" name="expenseAmount" id="expA" />
+      <br><br>
       <label for="description">Expense Description:</label>
+      <br>
       <input type="text" name="description" id="des" />
-      <label for="expenses">Category</label>
-      <select id="exp" name="expenses">
+      <br><br>
+      <label for="category">Category</label>
+      <select id="cat" name="category">
         <option value="fuel">Fuel</option>
         <option value="food">Food</option>
         <option value="electricity">Electricity</option>
         <option value="movie">Movie</option>
       </select>
+      <br><br>
       <button type="submit">Add Expenses</button>
     </form>
     <ul></ul>
   </body>
   <script src="index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
 </html>
