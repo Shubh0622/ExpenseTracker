@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 function isValidString(string){
@@ -19,13 +20,15 @@ exports.postAddUser = async (req,res,next) => {
                 error: "Bad Parameters, Missing Something"
             })
         }
-        await User.create({
-            userName: userName,
-            email: email,
-            password: password
-        });
-        res.status(201).json({message:"user created successfully"})
-        
+        bcrypt.hash(password,10, async(err, hash) =>{
+            console.log(err);
+            await User.create({
+                userName: userName,
+                email: email,
+                password: hash
+            });
+            res.status(201).json({message:"user created successfully"});
+        })    
     }
     catch(err){
         res.status(500).json({
@@ -44,13 +47,19 @@ exports.postLoginReq = async(req,res,next) =>{
         if(user === null){
             return res.status(404).json({error: "User not found"});
         }
-        if( user.password !== password){
-            return res.status(401).json({error: "User not authorized"});
+        if(user !== null){
+            bcrypt.compare(password, user.password, (err,result)=>{
+                if(err){
+                    throw new Error('Something went Wrong');
+                }
+                if(result){
+                    res.status(200).json({message: "User login successful"});
+                }
+                else{
+                    res.status(401).json({error: "User not authorized"})
+                }
+            })
         }
-        if(user !== null & user.password === password){
-            return res.status(200).json({message: "User login sucessful"});
-        }
-
     }
     catch(err){
         res.status(500).json({
