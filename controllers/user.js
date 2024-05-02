@@ -32,4 +32,29 @@ exports.postAddUser = async (req,res,next) => {
             error: err
         })
     }
+};
+
+exports.postLoginReq = async(req,res,next) =>{
+    try{
+        const email = req.body.email;
+        const password =req.body.password;
+
+        const user = await User.findOne({where: { email: email}});
+        // console.log(user.dataValues.password);
+        if(user === null){
+            return res.status(404).json({error: "User not found"});
+        }
+        if( user.password !== password){
+            return res.status(401).json({error: "User not authorized"});
+        }
+        if(user !== null & user.password === password){
+            return res.status(200).json({message: "User login sucessful"});
+        }
+
+    }
+    catch(err){
+        res.status(500).json({
+            error: err
+        })
+    }
 }
