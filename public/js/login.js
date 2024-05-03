@@ -11,7 +11,8 @@ function handleLogin(event){
     axios
         .post("http://localhost:3000/user/login",obj)
         .then(res => {
-            window.location.assign("index.html")
+            localStorage.setItem('token', res.data.token);
+            window.location.assign("index.html");
             console.log(res.data.message);
         })
         .catch(err => {

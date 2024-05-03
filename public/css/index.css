@@ -5,22 +5,22 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #f0f0f0;
   }
   
   .container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px;
     padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
   
   .expense-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
   }
   
   .expense-form h2 {
@@ -37,9 +37,10 @@ body {
     margin-bottom: 5px;
   }
   
-  .form-group input,
+  .form-group input[type="number"],
+  .form-group input[type="text"],
   .form-group select {
-    width: 100%;
+    width: calc(100% - 22px); /* Adjust input width */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -60,9 +61,9 @@ body {
   }
   
   .expenses-list {
-    margin-top: 20px;
-    list-style-type: none;
     padding: 0;
+    list-style-type: none;
+    margin-top: 0;
   }
   
   .expense-item {
@@ -70,31 +71,53 @@ body {
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
   
   .expense-item span {
-    flex-grow: 1;
-    margin-right: 10px;
+    display: block;
+    margin-bottom: 0.5em;
   }
   
-  .edit-btn,
-  .delete-btn {
-    padding: 5px 10px;
+  .expense-item .edit-btn,
+  .expense-item .delete-btn {
+    display: inline-block;
+    padding: 0.5em 1em;
+    margin-top: 0.5em;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   
-  .edit-btn {
+  .expense-item .edit-btn {
     background-color: #ffc107;
     color: #fff;
   }
   
-  .delete-btn {
+  .expense-item .delete-btn {
     background-color: #dc3545;
     color: #fff;
+  }
+  
+  @media only screen and (max-width: 1200px) {
+    .container {
+      width: 95%;
+    }
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .container {
+      width: 100%;
+      padding: 10px;
+      margin: 0;
+      border-radius: 0;
+    }
+  
+    .expenses-list {
+      margin-top: 0;
+    }
+  
+    .expense-form {
+      margin-bottom: 10px;
+    }
   }
   

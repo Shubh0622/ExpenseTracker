@@ -1,3 +1,5 @@
+const token = localStorage.getItem('token');
+
 function handleFormSubmit(event){
     event.preventDefault();
     const expenseAmount = event.target.expenseAmount.value;
@@ -11,7 +13,8 @@ function handleFormSubmit(event){
     
     axios
         .post('http://localhost:3000/add-expense',
-        myObj
+        myObj,
+        { headers: {"Authorization": token}}
     )
     .then((response) => {
         displayExpenseOnScreen(response.data.newExpenseDetail)
@@ -24,16 +27,17 @@ function handleFormSubmit(event){
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
-    axios.get("http://localhost:3000/get-expenses")
-    .then(res =>{
-      for(let i=0;i<res.data.allExpenses.length;i++){
-        displayExpenseOnScreen(res.data.allExpenses[i]);
-      }
-    })
-    .catch(err=>{
-      console.log(err);
-    })
-  });
+  
+  axios.get("http://localhost:3000/get-expenses",{ headers: {"Authorization": token}})
+  .then(res =>{
+    for(let i=0;i<res.data.allExpenses.length;i++){
+      displayExpenseOnScreen(res.data.allExpenses[i]);
+    }
+  })
+  .catch(err=>{
+    console.log(err);
+  })
+});
 
 
   function displayExpenseOnScreen(expenseDetails) {
@@ -57,7 +61,7 @@ window.addEventListener("DOMContentLoaded",()=>{
   
     deleteButton.addEventListener("click", function (event) {
       let id=expenseDetails.id;
-      axios.delete(`http://localhost:3000/delete-expense/${id}`)
+      axios.delete(`http://localhost:3000/delete-expense/${id}`,{ headers: {"Authorization": token}})
            .then(res => {
             expensesList.removeChild(event.target.parentElement)
         })
@@ -72,7 +76,7 @@ window.addEventListener("DOMContentLoaded",()=>{
     
       let id=expenseDetails.id;
       
-      axios.delete(`http://localhost:3000/delete-expense/${id}`)
+      axios.delete(`http://localhost:3000/delete-expense/${id}`,{ headers: {"Authorization": token}})
            .then(res => {
             expensesList.removeChild(event.target.parentElement)
         })
