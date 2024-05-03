@@ -37,44 +37,44 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 
   function displayExpenseOnScreen(expenseDetails) {
+    // const expenseItem = document.createElement("li");
+    const expensesList = document.getElementById("expenses-list");
     const expenseItem = document.createElement("li");
-    expenseItem.appendChild(
-      document.createTextNode(
-        `${expenseDetails.expenseAmount} - ${expenseDetails.description} - ${expenseDetails.category}`
-      )
-    );
+    expenseItem.classList.add("expense-item");
+    
+    expenseItem.innerHTML = `
+      <span><strong>Amount:</strong> $${expenseDetails.expenseAmount}</span>
+      <span><strong>Description:</strong> ${expenseDetails.description}</span>
+      <span><strong>Category:</strong> ${expenseDetails.category}</span>
+      <button class="edit-btn">Edit</button>
+      <button class="delete-btn">Delete</button>
+    `;
+
+    expensesList.appendChild(expenseItem);
+
+    const editButton = expenseItem.querySelector(".edit-btn");
+    const deleteButton = expenseItem.querySelector(".delete-btn");
   
-    const deleteBtn = document.createElement("button");
-    deleteBtn.appendChild(document.createTextNode("Delete"));
-    expenseItem.appendChild(deleteBtn);
-  
-    const editBtn = document.createElement("button");
-    editBtn.appendChild(document.createTextNode("Edit"));
-    expenseItem.appendChild(editBtn);
-  
-    const expenseList = document.querySelector("ul");
-    expenseList.appendChild(expenseItem);
-  
-    deleteBtn.addEventListener("click", function (event) {
+    deleteButton.addEventListener("click", function (event) {
       let id=expenseDetails.id;
       axios.delete(`http://localhost:3000/delete-expense/${id}`)
            .then(res => {
-            expenseList.removeChild(event.target.parentElement)
+            expensesList.removeChild(event.target.parentElement)
         })
            .catch(err => console.log(err))
     });
   
-    editBtn.addEventListener("click", function (event) {
+    editButton.addEventListener("click", function (event) {
       
-      document.getElementById("expA").value = expenseDetails.expenseAmount;
-      document.getElementById("des").value = expenseDetails.description;
-      document.getElementById("cat").value = expenseDetails.category;
+      document.getElementById("amount").value = expenseDetails.expenseAmount;
+      document.getElementById("description").value = expenseDetails.description;
+      document.getElementById("category").value = expenseDetails.category;
     
       let id=expenseDetails.id;
       
       axios.delete(`http://localhost:3000/delete-expense/${id}`)
            .then(res => {
-            expenseList.removeChild(event.target.parentElement)
+            expensesList.removeChild(event.target.parentElement)
         })
            .catch(err => console.log(err))
     });
